@@ -1,5 +1,7 @@
 import type { ReactElement } from "react";
 
+type Variants = "primary"|"secondary"
+
 interface ButtonProps {
     variant: "primary"|"secondary";
     size: "sm"|"md"|"lg";
@@ -10,18 +12,18 @@ interface ButtonProps {
 }
 
 const variantStyles = {
-    "primary": "bg-primary text-white",
-    "secondary":"bg-secondary text-primary"
+    "primary": "bg-purple-600 text-white",
+    "secondary": "bg-purple-300 text-purple-600"
 }
 
 const sizeStyles = {
-    "sm": "p-2",
-    "md": "p-4",
-    "lg": "p-8"
+    "sm": "py-1 px-2",
+    "md": "py-2 px-4",
+    "lg": "py-4 px-6"
 }
 
-const defaultStyles = "rounded-md p-4"
+const defaultStyles = "rounded-md flex"
 
 export const Button = (props:ButtonProps) => { 
-    return <button className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]}`}>{props.text}</button>
+    return <button className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]}`}>{props.startIcon ? <div className="pr-2">{props.startIcon}</div>:null}{props.text}</button>
 }
