@@ -8,10 +8,11 @@ function App() {
   return(
     <>
     <div className="flex">
-      <Button startIcon={<ShareIcon size={"md"}/>}variant="primary" size="md" onClick={()=>{}} text="Share"/>
-      <Button startIcon={<PlusIcon size={"md"}/>}variant="secondary" size="md" onClick={()=>{}} text="Add Content"/>
+      <Button variant="primary" text="Add Content" startIcon={<PlusIcon size="md"/>}/>
+      <Button variant="secondary" text="Share Link" startIcon={<ShareIcon size="md"/>} />
     </div>
     </>
   )
 }
+
 export default App
