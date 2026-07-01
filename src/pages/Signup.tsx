@@ -25,10 +25,9 @@ export function Signup(){
             });
             alert("You have Signed up!");
     } catch(error: any) {
-        alert(error.response?.data?.message || "Signup failed");
+        alert(error.response?.data?.message || "Error in Credentials!");
     }
 }
-
     return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
         <div className="bg-white rounded-xl border min-w-48 p-8">
             <Input ref={usernameRef} placeholder="Username"/>
