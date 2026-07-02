@@ -31,7 +31,7 @@ export function Dashboard() {
     <Sidebar onSelect={setFilter} selected={filter}/>
     <div className="p-6 ml-72 min-h-screen bg-gray-50">
       <CreateContentModal open={modelOpen} onClose={() => { setModelOpen(false); refresh(); }}/>
-      
+
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-xl font-semibold text-gray-700">{filterLabel[filter]}</h2>
@@ -50,7 +50,7 @@ export function Dashboard() {
           <p className="text-sm text-gray-400">Add some {filter === "all" ? "content" : filter} to get started</p>
         </div>
       ) : (
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap justify-start">
           {filteredContents.map(({ _id, type, link, title }: any) => (
             <Card key={link} _id={_id} type={type} link={link} title={title} onDelete={refresh}/>
           ))}

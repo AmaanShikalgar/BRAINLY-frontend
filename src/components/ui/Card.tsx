@@ -3,6 +3,7 @@ import { BACKEND_URL } from "../../config";
 import { DeleteIcon } from "../../icons/DeleteIcon";
 import { RedirectIcon } from "../../icons/RedirectIcon";
 import { useLinkPreview } from "../../hooks/useLinkPreview";
+import { useEffect } from "react";
 
 interface CardProps {
     title: string;
@@ -34,6 +35,12 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
         });
         onDelete();
     }
+
+    useEffect(() => {
+        if (type === "twitter" && (window as any).twttr) {
+            (window as any).twttr.widgets.load();
+        }
+    }, [type]);
 
     const badge = typeBadge[type];
 

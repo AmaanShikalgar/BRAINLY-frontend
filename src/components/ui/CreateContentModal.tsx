@@ -5,6 +5,13 @@ import { Input } from "./Input";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 
+import { YoutubeIcon } from "../../icons/YoutubeIcon";
+import { TwitterIcon } from "../../icons/TwitterIcon";
+import { InstagramIcon } from "../../icons/InstagramIcon";
+import { RedditIcon } from "../../icons/RedditIcon";
+import { DocumentIcon } from "../../icons/DocumentIcon";
+import { LinkIcon } from "../../icons/LinkIcon";
+
 enum ContentType {
     Youtube = "youtube",
     Twitter = "twitter",
@@ -15,12 +22,12 @@ enum ContentType {
 }
 
 const contentTypes = [
-    { type: ContentType.Youtube,   label: "YouTube",   emoji: "▶️" },
-    { type: ContentType.Twitter,   label: "Twitter",   emoji: "𝕏" },
-    { type: ContentType.Instagram, label: "Instagram", emoji: "📸" },
-    { type: ContentType.Reddit,    label: "Reddit",    emoji: "🔴" },
-    { type: ContentType.Document,  label: "Document",  emoji: "📄" },
-    { type: ContentType.Link,      label: "Link",      emoji: "🔗" },
+    { type: ContentType.Youtube,   label: "YouTube",   icon: <YoutubeIcon/> },
+    { type: ContentType.Twitter,   label: "Twitter",   icon: <TwitterIcon/> },
+    { type: ContentType.Instagram, label: "Instagram", icon: <InstagramIcon/> },
+    { type: ContentType.Reddit,    label: "Reddit",    icon: <RedditIcon/> },
+    { type: ContentType.Document,  label: "Document",  icon: <DocumentIcon/> },
+    { type: ContentType.Link,      label: "Link",      icon: <LinkIcon/> },
 ]
 
 export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
@@ -65,7 +72,7 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
                     <div className="mb-5">
                         <label className="text-xs font-medium text-gray-500 mb-2 block">Content type</label>
                         <div className="grid grid-cols-3 gap-2">
-                            {contentTypes.map(({ type: t, label, emoji }) => (
+                            {contentTypes.map(({ type: t, label, icon }) => (
                                 <button
                                     key={t}
                                     onClick={() => setType(t)}
@@ -75,7 +82,7 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
                                             : "border-gray-200 text-gray-500 hover:border-purple-200 hover:bg-purple-50/50"
                                         }`}
                                 >
-                                    <span className="text-lg">{emoji}</span>
+                                    <span className="text-lg">{icon}</span>
                                     <span>{label}</span>
                                 </button>
                             ))}
