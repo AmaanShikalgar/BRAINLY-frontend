@@ -1,7 +1,6 @@
-// import { Dashboard } from "./pages/dashboard"
+import {BrowserRouter,Routes, Route} from "react-router-dom"
 import { Signup } from "./pages/Signup"
 import { Signin } from "./pages/Signin"
-import {BrowserRouter,Routes, Route} from "react-router-dom"
 import { Dashboard } from "./pages/dashboard"
 
 function App() {
@@ -14,4 +13,4 @@ function App() {
     </BrowserRouter>  
 }
 
-export default App
+export default App;
