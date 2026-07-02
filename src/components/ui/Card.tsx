@@ -23,7 +23,7 @@ const typeBadge: Record<string, { label: string; color: string }> = {
 }
 
 const isLinkPreview = (type: string) =>
-    ["instagram", "reddit", "link", "document"].includes(type);
+    ["reddit", "link", "document"].includes(type);
 
 export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
     const preview = useLinkPreview(isLinkPreview(type) ? link : "");
@@ -40,12 +40,15 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
         if (type === "twitter" && (window as any).twttr) {
             (window as any).twttr.widgets.load();
         }
+        if (type === "instagram" && (window as any).instgrm) {
+            (window as any).instgrm.Embeds.process();
+        }
     }, [type]);
 
     const badge = typeBadge[type];
 
     return (
-        <div className="p-4 bg-white rounded-xl border border-gray-100 max-w-72 min-w-72 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 w-72 shadow-sm hover:shadow-md transition-shadow duration-200">
             
             {/* Badge */}
             <div className={`inline-flex items-center text-xs font-medium px-2 py-1 rounded-full mb-3 ${badge.color}`}>
@@ -54,7 +57,7 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
 
             {/* Header */}
             <div className="flex justify-between items-start mb-3">
-                <div className="text-base font-medium text-gray-800 pr-2 leading-snug">{title}</div>
+                <div className="text-base font-medium text-gray-800 dark:text-gray-100 pr-2 leading-snug">{title}</div>
                 <div className="flex items-center gap-2 shrink-0">
                     <a href={link} target="_blank" className="text-gray-400 hover:text-purple-500 transition-colors">
                         <RedirectIcon/>
@@ -66,10 +69,10 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
             </div>
 
             {/* Content */}
-            <div>
+            <div className="h-64 overflow-hidden rounded-lg">
                 {type === "youtube" && (
                     <iframe
-                        className="w-full rounded-lg"
+                        className="w-full h-full rounded-lg"
                         src={
                             link.includes("youtu.be")
                                 ? link.replace("youtu.be/", "www.youtube.com/embed/")
@@ -83,13 +86,28 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
                 )}
 
                 {type === "twitter" && (
-                    <blockquote className="twitter-tweet">
-                        <a href={link}></a>
-                    </blockquote>
+                    <div className="overflow-y-auto h-full">
+                        <blockquote className="twitter-tweet">
+                            <a href={link}></a>
+                        </blockquote>
+                    </div>
+                )}
+
+                {type === "instagram" && (
+                    <div className="overflow-hidden h-full">
+                        <blockquote
+                            className="instagram-media !min-w-0 !w-full"
+                            data-instgrm-permalink={link}
+                            data-instgrm-version="14"
+                            style={{ width: "100% !important", minWidth: "0 !important", margin: "0 !important" }}
+                        >
+                            <a href={link}></a>
+                        </blockquote>
+                    </div>
                 )}
 
                 {isLinkPreview(type) && (
-                    <a href={link} target="_blank" className="block rounded-xl overflow-hidden border border-gray-100 hover:border-purple-200 transition-colors">
+                    <a href={link} target="_blank" className="block rounded-xl overflow-hidden border border-gray-100 hover:border-purple-200 transition-colors h-full">
                         {preview?.image ? (
                             <img src={preview.image} alt={title} className="w-full h-36 object-cover"/>
                         ) : (

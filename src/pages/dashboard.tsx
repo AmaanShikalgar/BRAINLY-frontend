@@ -7,8 +7,21 @@ import { CreateContentModal } from "../components/ui/CreateContentModal"
 import { useState } from "react"
 import { Sidebar } from "../components/ui/Sidebar"
 import { useContent } from "../hooks/useContent"
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
-export function Dashboard() {
+async function shareBrain() {
+    const response = await axios.post(BACKEND_URL + "/api/v1/brain/share", {
+        share: true
+    }, {
+        headers: { "Authorization": localStorage.getItem("token") }
+    });
+    const shareLink = `${window.location.origin}/brain/${response.data.link}`;
+    await navigator.clipboard.writeText(shareLink);
+    alert("Link copied to clipboard!");
+}
+
+export function Dashboard({ toggleTheme, dark }: { toggleTheme: () => void; dark: boolean }) {
   const [modelOpen, setModelOpen] = useState(false);
   const { contents, refresh } = useContent();
   const [filter, setFilter] = useState<string>("all");
@@ -28,8 +41,8 @@ export function Dashboard() {
   };
 
   return <div>
-    <Sidebar onSelect={setFilter} selected={filter}/>
-    <div className="p-6 ml-72 min-h-screen bg-gray-50">
+    <Sidebar onSelect={setFilter} selected={filter} toggleTheme={toggleTheme} dark={dark}/>
+    <div className="p-6 ml-72 min-h-screen bg-gray-50 dark:bg-gray-800">
       <CreateContentModal open={modelOpen} onClose={() => { setModelOpen(false); refresh(); }}/>
 
       <div className="flex justify-between items-center mb-6">
@@ -39,7 +52,7 @@ export function Dashboard() {
         </div>
         <div className="flex gap-3">
           <Button onClick={() => setModelOpen(true)} variant="primary" text="Add Content" startIcon={<PlusIcon size="md"/>}/>
-          <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon size="md"/>}/>
+          <Button onClick={shareBrain} variant="secondary" text="Share Brain" startIcon={<ShareIcon size="md"/>}/>
         </div>
       </div>
 
