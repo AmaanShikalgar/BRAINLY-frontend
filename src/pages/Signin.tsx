@@ -4,6 +4,7 @@ import { useRef } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { Logo } from "../icons/Logo";
 
 export function Signin(){
     const navigate = useNavigate();
@@ -27,13 +28,32 @@ export function Signin(){
         alert(error.response?.data?.message || "Error in Credentials!");
     }
 }
-    return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
-        <div className="bg-white rounded-xl border min-w-48 p-8">
-            <Input ref={usernameRef} placeholder="Username"/>
-            <Input ref={passwordRef} placeholder="Password"/>
-            <div className="flex justify-center pt-4">
-            <Button onClick={signin} loading={false} variant="primary" text="Signin" fullWidth={true}/>
-            </div>
+   return (
+  <div className="h-screen w-screen bg-purple-50 flex justify-center items-center">
+    <div className="bg-white rounded-2xl border border-purple-100 p-10 w-full max-w-md shadow-sm">
+      <div className="text-center mb-8">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <Logo />
+          <h1 className="text-2xl font-bold text-purple-600">Brainly</h1>
         </div>
+        <p className="text-gray-400 text-sm mt-1">Welcome back!</p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <div>
+          <label className="text-xs font-medium text-gray-500 mb-1 block">Email</label>
+          <Input ref={usernameRef} placeholder="john@example.com"/>
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500 mb-1 block">Password</label>
+          <Input ref={passwordRef} placeholder="••••••••"/>
+        </div>
+        <Button onClick={signin} loading={false} variant="primary" text="Sign in" fullWidth={true}/>
+      </div>
+      <p className="text-center text-sm text-gray-400 mt-5">
+        Don't have an account?{" "}
+        <span onClick={() => navigate("/signup")} className="text-purple-600 font-medium cursor-pointer">Sign up</span>
+      </p>
     </div>
+  </div>
+);
 }

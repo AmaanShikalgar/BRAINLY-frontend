@@ -1,4 +1,3 @@
-// import { useState } from "react"
 import { useRef, useState } from "react";
 import { CrossIcon } from "../../icons/CrossIcon";
 import { Button } from "./Button";
@@ -8,57 +7,97 @@ import axios from "axios";
 
 enum ContentType {
     Youtube = "youtube",
-    Twitter = "twitter"
+    Twitter = "twitter",
+    Instagram = "instagram",
+    Reddit = "reddit",
+    Document = "document",
+    Link = "link"
 }
 
-export const CreateContentModal = ({open, onClose}:{open:boolean;onClose:()=>void;}) =>{
+const contentTypes = [
+    { type: ContentType.Youtube,   label: "YouTube",   emoji: "▶️" },
+    { type: ContentType.Twitter,   label: "Twitter",   emoji: "𝕏" },
+    { type: ContentType.Instagram, label: "Instagram", emoji: "📸" },
+    { type: ContentType.Reddit,    label: "Reddit",    emoji: "🔴" },
+    { type: ContentType.Document,  label: "Document",  emoji: "📄" },
+    { type: ContentType.Link,      label: "Link",      emoji: "🔗" },
+]
+
+export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef  = useRef<HTMLInputElement>(null);
-    const[type,setType] = useState(ContentType.Youtube);
+    const [type, setType] = useState(ContentType.Youtube);
+    const [loading, setLoading] = useState(false);
 
-    async function addContent(){
-    try {
-        const title = titleRef.current?.value;
-        const link = linkRef.current?.value;
-
-        await axios.post(BACKEND_URL + "/api/v1/content", {
-            title, link, type
-        }, {
-            headers: { "Authorization": localStorage.getItem("token") }
-        });
-        onClose();
-    } catch(e: any) {
-        alert(e.response?.data?.message || "Failed to add content");
+    async function addContent() {
+        if (loading) return;
+        setLoading(true);
+        try {
+            const title = titleRef.current?.value;
+            const link  = linkRef.current?.value;
+            await axios.post(BACKEND_URL + "/api/v1/content", {
+                title, link, type
+            }, {
+                headers: { "Authorization": localStorage.getItem("token") }
+            });
+            onClose();
+        } catch (e: any) {
+            alert(e.response?.data?.message || "Failed to add content");
+        } finally {
+            setLoading(false);
+        }
     }
-}
-    return<>
-        {open && <div className="w-screen h-screen bg-gray-500/80 fixed top-0 left-0 flex justify-center">
-            <div className="flex flex-col justify-center">
-                <span className="bg-white opacity-100 p-4 rounded">
-                    <div className="flex justify-end">
-                        <div onClick={onClose} className="cursor-pointer">
-                        <CrossIcon/>
+
+    return <>
+        {open && (
+            <div className="w-screen h-screen bg-gray-900/60 fixed top-0 left-0 flex justify-center items-center z-50">
+                <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-purple-100">
+                    
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-lg font-semibold text-gray-800">Add Content</h2>
+                        <div onClick={onClose} className="cursor-pointer text-gray-400 hover:text-gray-600 transition-colors">
+                            <CrossIcon/>
                         </div>
                     </div>
-                    <div>
-                        <Input ref={titleRef} placeholder={"Title"}/>
-                        <Input ref={linkRef} placeholder={"Link"}/>
-                    </div>
-                    <div>
-                        <h1>Type</h1>
-                        <div className="flex gap-1 p-4">
-                            <Button text="Youtube" variant={type === ContentType.Youtube ? "primary": "secondary"} onClick={()=>{
-                                setType(ContentType.Youtube)
-                            }}></Button>
-                            <Button text="Twitter" variant={type === ContentType.Twitter ? "primary": "secondary"} onClick={()=>{
-                                setType(ContentType.Twitter)}}></Button>
+
+                    {/* Type Selector */}
+                    <div className="mb-5">
+                        <label className="text-xs font-medium text-gray-500 mb-2 block">Content type</label>
+                        <div className="grid grid-cols-3 gap-2">
+                            {contentTypes.map(({ type: t, label, emoji }) => (
+                                <button
+                                    key={t}
+                                    onClick={() => setType(t)}
+                                    className={`flex flex-col items-center gap-1 py-3 px-2 rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer
+                                        ${type === t
+                                            ? "border-purple-500 bg-purple-50 text-purple-600"
+                                            : "border-gray-200 text-gray-500 hover:border-purple-200 hover:bg-purple-50/50"
+                                        }`}
+                                >
+                                    <span className="text-lg">{emoji}</span>
+                                    <span>{label}</span>
+                                </button>
+                            ))}
                         </div>
                     </div>
-                    <div className="flex justify-center">
-                        <Button variant="primary" text="Submit" size="sm" onClick={addContent}/>
+
+                    {/* Inputs */}
+                    <div className="flex flex-col gap-3 mb-6">
+                        <div>
+                            <label className="text-xs font-medium text-gray-500 mb-1 block">Title</label>
+                            <Input ref={titleRef} placeholder="Enter a title"/>
+                        </div>
+                        <div>
+                            <label className="text-xs font-medium text-gray-500 mb-1 block">Link</label>
+                            <Input ref={linkRef} placeholder="Paste your link here"/>
+                        </div>
                     </div>
-                </span>
+
+                    {/* Submit */}
+                    <Button variant="primary" text={loading ? "Adding..." : "Add Content"} fullWidth={true} onClick={addContent} loading={loading}/>
+                </div>
             </div>
-        </div>}
+        )}
     </>
 }
