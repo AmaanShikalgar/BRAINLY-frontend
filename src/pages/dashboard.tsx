@@ -6,14 +6,16 @@ import { ShareIcon } from "../icons/Shareicon"
 import { CreateContentModal } from "../components/ui/CreateContentModal"
 import { useState } from "react"
 import { Sidebar } from "../components/ui/Sidebar"
+import { useContent } from "../hooks/useContent"
 
 export function Dashboard() {
   const[modelOpen,setModelOpen] = useState(false);
+  const {contents,refresh} = useContent();
 
   return<div>
     <Sidebar/>
     <div className="p-4 ml-72 min-h-screen bg-gray-100">
-      <CreateContentModal open={modelOpen} onClose={()=>{setModelOpen(false)}}/>
+      <CreateContentModal open={modelOpen} onClose={()=>{setModelOpen(false);refresh();}}/>
       <div className="flex justify-end gap-4">
         <Button onClick={()=>{
           setModelOpen(true)
@@ -21,9 +23,8 @@ export function Dashboard() {
         <Button variant="secondary" text="Share Link" startIcon={<ShareIcon size="md"/>} />
       </div>
 
-      <div className="flex gap-4">
-        <Card type="twitter" link="https://x.com/AmaanShikalgar1/status/2071853642332971428?s=20" title="Latest Tweet"/>
-        <Card type="youtube" link="https://youtu.be/cxMqXPAVag8?si=Q-bXj6y493syHBYc" title="Latest video"/>
+      <div className="flex gap-4 flex-wrap pt-4">
+        {contents.map(({type,link,title})=><Card key={link} type={type} link={link} title={title}/>)}
       </div>
     </div>
 </div>
