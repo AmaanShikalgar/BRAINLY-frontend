@@ -37,18 +37,50 @@ function detectType(url: string): ContentType {
     return ContentType.Link;
 }
 
+function isValidForType(link: string, type: ContentType): boolean {
+    switch(type) {
+        case ContentType.Youtube:
+            return link.includes("youtube.com") || link.includes("youtu.be");
+        case ContentType.Twitter:
+            return link.includes("twitter.com") || link.includes("x.com");
+        case ContentType.Instagram:
+            return link.includes("instagram.com");
+        case ContentType.Reddit:
+            return link.includes("reddit.com");
+        case ContentType.Document:
+        case ContentType.Link:
+            return true;
+        default:
+            return true;
+    }
+}
+
 export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef  = useRef<HTMLInputElement>(null);
     const [type, setType] = useState(ContentType.Youtube);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function addContent() {
         if (loading) return;
+        setError("");
+
+        const title = titleRef.current?.value;
+        const link  = linkRef.current?.value;
+
+        if (!link) {
+            setError("Please enter a link");
+            return;
+        }
+
+        if (!isValidForType(link, type)) {
+            setError(`This doesn't look like a ${type} link. Check the URL or select the correct type.`);
+            return;
+        }
+
         setLoading(true);
         try {
-            const title = titleRef.current?.value;
-            const link  = linkRef.current?.value;
             await axios.post(BACKEND_URL + "/api/v1/content", {
                 title, link, type
             }, {
@@ -56,7 +88,7 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
             });
             onClose();
         } catch (e: any) {
-            alert(e.response?.data?.message || "Failed to add content");
+            setError(e.response?.data?.message || "Failed to add content");
         } finally {
             setLoading(false);
         }
@@ -97,7 +129,7 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
                     </div>
 
                     {/* Inputs */}
-                    <div className="flex flex-col gap-3 mb-6">
+                    <div className="flex flex-col gap-3 mb-4">
                         <div>
                             <label className="text-xs font-medium text-gray-500 mb-1 block">Title</label>
                             <Input ref={titleRef} placeholder="Enter a title"/>
@@ -107,10 +139,19 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
                             <Input
                                 ref={linkRef}
                                 placeholder="Paste your link here"
-                                onChange={(e) => setType(detectType(e.target.value))}
+                                onChange={(e) => {
+                                    setError("");
+                                    setType(detectType(e.target.value));
+                                }}
                             />
                         </div>
                     </div>
+
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-3 py-2 rounded-lg mb-4">
+                            {error}
+                        </div>
+                    )}
 
                     {/* Submit */}
                     <Button variant="primary" text={loading ? "Adding..." : "Add Content"} fullWidth={true} onClick={addContent} loading={loading}/>
