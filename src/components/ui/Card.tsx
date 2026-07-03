@@ -48,7 +48,7 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
     const badge = typeBadge[type];
 
     return (
-        <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 w-72 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 w-full md:w-72 shadow-sm hover:shadow-md transition-shadow duration-200">
             
             {/* Badge */}
             <div className={`inline-flex items-center text-xs font-medium px-2 py-1 rounded-full mb-3 ${badge.color}`}>

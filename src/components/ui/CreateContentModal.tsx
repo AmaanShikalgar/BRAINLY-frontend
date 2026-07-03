@@ -10,6 +10,7 @@ import { InstagramIcon } from "../../icons/InstagramIcon";
 import { RedditIcon } from "../../icons/RedditIcon";
 import { DocumentIcon } from "../../icons/DocumentIcon";
 import { LinkIcon } from "../../icons/LinkIcon";
+import toast from "react-hot-toast";
 
 enum ContentType {
     Youtube = "youtube",
@@ -86,9 +87,10 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
             }, {
                 headers: { "Authorization": localStorage.getItem("token") }
             });
+            toast.success("Content added!");
             onClose();
         } catch (e: any) {
-            setError(e.response?.data?.message || "Failed to add content");
+            toast.error(e.response?.data?.message || "Failed to add content");
         } finally {
             setLoading(false);
         }

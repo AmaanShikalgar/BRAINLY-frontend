@@ -9,6 +9,7 @@ import { Sidebar } from "../components/ui/Sidebar"
 import { useContent } from "../hooks/useContent"
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import toast from "react-hot-toast";
 
 async function shareBrain() {
     const response = await axios.post(BACKEND_URL + "/api/v1/brain/share", {
@@ -18,7 +19,7 @@ async function shareBrain() {
     });
     const shareLink = `${window.location.origin}/brain/${response.data.link}`;
     await navigator.clipboard.writeText(shareLink);
-    alert("Link copied to clipboard!");
+    toast.success("Link copied to clipboard!");
 }
 
 export function Dashboard({ toggleTheme, dark }: { toggleTheme: () => void; dark: boolean }) {
@@ -42,7 +43,7 @@ export function Dashboard({ toggleTheme, dark }: { toggleTheme: () => void; dark
 
   return <div>
     <Sidebar onSelect={setFilter} selected={filter} toggleTheme={toggleTheme} dark={dark}/>
-    <div className="p-6 ml-72 min-h-screen bg-gray-50 dark:bg-gray-800">
+    <div className="p-6 md:ml-72 min-h-screen bg-gray-50 dark:bg-gray-800 pt-16 md:pt-6">
       <CreateContentModal open={modelOpen} onClose={() => { setModelOpen(false); refresh(); }}/>
 
       <div className="flex justify-between items-center mb-6">

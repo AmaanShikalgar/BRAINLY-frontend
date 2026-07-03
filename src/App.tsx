@@ -5,6 +5,7 @@ import { Signin } from "./pages/Signin";
 import { Dashboard } from "./pages/dashboard";
 import { Navigate } from "react-router-dom";
 import { Brain } from "./pages/Brain";
+import { Toaster } from "react-hot-toast";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const token = localStorage.getItem("token");
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right"/>
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
