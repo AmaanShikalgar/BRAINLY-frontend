@@ -8,6 +8,7 @@ import { RedditIcon } from "../../icons/RedditIcon"
 import { DocumentIcon } from "../../icons/DocumentIcon"
 import { LinkIcon } from "../../icons/LinkIcon"
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../hooks/useUser";
 
 export const Sidebar = ({ onSelect, selected, toggleTheme, dark }: {
     onSelect: (type: string) => void;
@@ -15,6 +16,7 @@ export const Sidebar = ({ onSelect, selected, toggleTheme, dark }: {
     toggleTheme: () => void;
     dark: boolean;
 }) => {
+    const user = useUser();
     const navigate = useNavigate();
 
     function signout() {
@@ -28,6 +30,17 @@ export const Sidebar = ({ onSelect, selected, toggleTheme, dark }: {
             Brainly
         </div>
         <p className="text-xs text-gray-400 mt-1 pl-1">Your second brain</p>
+        {user && (
+            <div className="mt-6 mx-2 p-3 bg-purple-50 rounded-xl flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                    {user.firstName[0]}{user.lastName[0]}
+                </div>
+                <div className="overflow-hidden">
+                    <p className="text-sm font-medium text-gray-800 truncate">{user.firstName} {user.lastName}</p>
+                    <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                </div>
+            </div>
+        )}
         <div className="pt-8 pl-2">
             <SidebarItem text="All" icon={<AllIcon/>} onClick={() => onSelect("all")} active={selected === "all"}/>
             <SidebarItem text="Twitter" icon={<TwitterIcon/>} onClick={() => onSelect("twitter")} active={selected === "twitter"}/>
