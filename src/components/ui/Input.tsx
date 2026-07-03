@@ -4,9 +4,10 @@ interface InputProps {
     placeholder: string;
     ref?: any;
     type?: "text" | "password";
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function Input({ ref, placeholder, type = "text" }: InputProps) {
+export function Input({ ref, placeholder, type = "text", onChange }: InputProps) {
     const [show, setShow] = useState(false);
 
     return (
@@ -14,6 +15,7 @@ export function Input({ ref, placeholder, type = "text" }: InputProps) {
             <input
                 ref={ref}
                 placeholder={placeholder}
+                onChange={onChange}
                 type={type === "password" ? (show ? "text" : "password") : "text"}
                 className="w-full px-3 py-2.5 border border-purple-100 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:border-purple-400 transition-colors pr-10"
             />

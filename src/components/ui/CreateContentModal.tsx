@@ -4,7 +4,6 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
-
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { InstagramIcon } from "../../icons/InstagramIcon";
@@ -29,6 +28,14 @@ const contentTypes = [
     { type: ContentType.Document,  label: "Document",  icon: <DocumentIcon/> },
     { type: ContentType.Link,      label: "Link",      icon: <LinkIcon/> },
 ]
+
+function detectType(url: string): ContentType {
+    if (url.includes("youtube.com") || url.includes("youtu.be")) return ContentType.Youtube;
+    if (url.includes("twitter.com") || url.includes("x.com")) return ContentType.Twitter;
+    if (url.includes("instagram.com")) return ContentType.Instagram;
+    if (url.includes("reddit.com")) return ContentType.Reddit;
+    return ContentType.Link;
+}
 
 export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
     const titleRef = useRef<HTMLInputElement>(null);
@@ -97,7 +104,11 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
                         </div>
                         <div>
                             <label className="text-xs font-medium text-gray-500 mb-1 block">Link</label>
-                            <Input ref={linkRef} placeholder="Paste your link here"/>
+                            <Input
+                                ref={linkRef}
+                                placeholder="Paste your link here"
+                                onChange={(e) => setType(detectType(e.target.value))}
+                            />
                         </div>
                     </div>
 
