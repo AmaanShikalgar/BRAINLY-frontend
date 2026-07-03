@@ -60,7 +60,7 @@ export function Signup(){
         </div>
         <div>
           <label className="text-xs font-medium text-gray-500 mb-1 block">Password</label>
-          <Input ref={passwordRef} placeholder="••••••••"/>
+          <Input ref={passwordRef} placeholder="••••••••" type="password"/>
         </div>
         <Button onClick={signup} loading={false} variant="primary" text="Create account" fullWidth={true}/>
       </div>

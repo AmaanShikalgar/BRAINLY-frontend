@@ -96,7 +96,7 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
                 {type === "instagram" && (
                     <div className="overflow-hidden h-full">
                         <blockquote
-                            className="instagram-media !min-w-0 !w-full"
+                            className="instagram-media min-w-0! w-full!"
                             data-instgrm-permalink={link}
                             data-instgrm-version="14"
                             style={{ width: "100% !important", minWidth: "0 !important", margin: "0 !important" }}
