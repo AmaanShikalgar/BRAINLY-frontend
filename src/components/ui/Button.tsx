@@ -22,7 +22,7 @@ const variantClasses = {
 //     "lg": "py-4 px-8"
 // }
 
-const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center cursor-pointer"
+const defaultStyles = "px-3 py-1.5 md:px-4 md:py-2 rounded-md font-light flex items-center cursor-pointer text-sm md:text-base"
 
 export const Button = ({variant,text,startIcon, onClick, fullWidth,loading}:ButtonProps) => { 
     return <button onClick={onClick} className={variantClasses[variant] +" "+ defaultStyles + `${fullWidth ? " w-full flex justify-center items-center" : ""} ${loading? "opacity-45": ""}`} disabled={loading}>
