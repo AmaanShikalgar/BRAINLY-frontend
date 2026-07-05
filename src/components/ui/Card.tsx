@@ -29,6 +29,9 @@ export const Card = ({ title, link, type, _id, onDelete }: CardProps) => {
     const preview = useLinkPreview(isLinkPreview(type) ? link : "");
 
     async function deleteContent() {
+        const confirmed = window.confirm("Are you sure you want to delete this?");
+        if (!confirmed) return;
+        
         await axios.delete(BACKEND_URL + "/api/v1/content", {
             data: { contentId: _id },
             headers: { "Authorization": localStorage.getItem("token") }
