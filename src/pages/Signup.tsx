@@ -44,8 +44,20 @@ export function Signup(){
     }
 
     return (
-        <div className="h-screen w-screen bg-purple-50 flex justify-center items-center">
-            <div className="bg-white rounded-2xl border border-purple-100 p-10 w-full max-w-md shadow-sm">
+        <div className="min-h-screen w-screen flex justify-center items-center relative overflow-hidden pb-12">
+
+            {/* Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-indigo-50 -z-10"/>
+            <div className="absolute -top-20 -left-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10"/>
+            <div className="absolute -top-20 -right-20 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10" style={{animationDelay:"1s"}}/>
+            <div className="absolute -bottom-20 left-1/3 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10" style={{animationDelay:"2s"}}/>
+            <div className="absolute bottom-10 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10" style={{animationDelay:"0.5s"}}/>
+            <div className="absolute inset-0 -z-10" style={{
+                backgroundImage:"linear-gradient(rgba(80,70,228,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(80,70,228,0.03) 1px,transparent 1px)",
+                backgroundSize:"40px 40px"
+            }}/>
+
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-purple-100 p-10 w-full max-w-md shadow-xl relative z-10">
                 <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-1">
                         <Logo/>
