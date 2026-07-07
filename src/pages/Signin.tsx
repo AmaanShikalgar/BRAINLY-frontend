@@ -5,6 +5,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../icons/Logo";
+import { Footer } from "../components/ui/Footer";
 
 export function Signin(){
     const navigate = useNavigate();
@@ -68,6 +69,7 @@ export function Signin(){
                     <span onClick={() => navigate("/signup")} className="text-purple-600 font-medium cursor-pointer">Sign up</span>
                 </p>
             </div>
+        <Footer/>
         </div>
     );
 }

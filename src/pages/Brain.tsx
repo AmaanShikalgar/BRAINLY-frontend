@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { Card } from "../components/ui/Card";
+import { Footer } from "../components/ui/Footer";
 
 export function Brain() {
     const { shareLink } = useParams();
@@ -28,6 +29,7 @@ export function Brain() {
                     <Card key={link} _id={_id} type={type} link={link} title={title} onDelete={() => {}}/>
                 ))}
             </div>
+            <Footer/>
         </div>
     );
 }

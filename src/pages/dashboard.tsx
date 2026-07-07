@@ -10,6 +10,7 @@ import { useContent } from "../hooks/useContent"
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import toast from "react-hot-toast";
+import { Footer } from "../components/ui/Footer"
 
 export function Dashboard({ toggleTheme, dark }: { toggleTheme: () => void; dark: boolean }) {
   const [modelOpen, setModelOpen] = useState(false);
@@ -91,5 +92,6 @@ export function Dashboard({ toggleTheme, dark }: { toggleTheme: () => void; dark
         </div>
       )}
     </div>
+    <Footer/>
   </div>
 }
