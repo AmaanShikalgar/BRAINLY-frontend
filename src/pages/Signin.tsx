@@ -40,7 +40,7 @@ export function Signin(){
         <div className="min-h-screen w-screen flex justify-center items-center relative overflow-hidden pb-12">
 
             {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-indigo-50 -z-10"/>
+            <div className="absolute inset-0 bg-linear-to-br from-purple-50 via-white to-indigo-50 -z-10"/>
             <div className="absolute -top-20 -left-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10"/>
             <div className="absolute -top-20 -right-20 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10" style={{animationDelay:"1s"}}/>
             <div className="absolute -bottom-20 left-1/3 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse -z-10" style={{animationDelay:"2s"}}/>
